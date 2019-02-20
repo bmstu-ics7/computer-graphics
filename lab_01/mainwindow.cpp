@@ -31,7 +31,6 @@ double min(double a, double b) {
     return a < b ? a : b;
 }
 
-
 /*
  * Находит угол между высотой и биссектрисой, выходящих из вершины B
  */
@@ -231,6 +230,8 @@ void MainWindow::on_btnAdd_clicked() {
                 }
 
                 count++;
+                wasNum = false;
+
                 if (count > 1) {
                     QMessageBox::critical(this, "Ошибка!", "Лишние пробелы!");
                     return;
@@ -240,7 +241,7 @@ void MainWindow::on_btnAdd_clicked() {
                 }
             }
 
-            QMessageBox::critical(this, "Ошибка!", "Введены не числа");
+            QMessageBox::critical(this, "Ошибка!", "Введены не числа!");
             return;
         } else {
             wasNum = true;
@@ -251,6 +252,11 @@ void MainWindow::on_btnAdd_clicked() {
 
     if (count == 0) {
         QMessageBox::critical(this, "Ошибка!", "Введено одно число!");
+        return;
+    }
+
+    if (text[text.length() - 1] == '-') {
+        QMessageBox::critical(this, "Ошибка!", "Введены не числа!");
         return;
     }
 

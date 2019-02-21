@@ -36,6 +36,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    bool checkTwoInt(QString text);
 };
 
 #endif // MAINWINDOW_H

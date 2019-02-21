@@ -214,10 +214,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
     }
 }
 
-void MainWindow::on_btnAdd_clicked() {
-    QString text = ui->lineEdit->text();
-    ui->lineEdit->clear();
-
+bool MainWindow::checkTwoInt(QString text) {
     int count = 0;
     bool wasNum = false;
     QChar prev = '\0';
@@ -231,7 +228,7 @@ void MainWindow::on_btnAdd_clicked() {
             if (a == ' ') {
                 if (!wasNum) {
                     QMessageBox::critical(this, "Ошибка!", "Пробел до чисел!");
-                    return;
+                    return false;
                 }
 
                 count++;
@@ -239,7 +236,7 @@ void MainWindow::on_btnAdd_clicked() {
 
                 if (count > 1) {
                     QMessageBox::critical(this, "Ошибка!", "Лишние пробелы!");
-                    return;
+                    return false;
                 } else {
                     prev = a;
                     continue;
@@ -247,7 +244,7 @@ void MainWindow::on_btnAdd_clicked() {
             }
 
             QMessageBox::critical(this, "Ошибка!", "Введены не числа!");
-            return;
+            return false;
         } else {
             wasNum = true;
         }
@@ -257,17 +254,25 @@ void MainWindow::on_btnAdd_clicked() {
 
     if (count == 0) {
         QMessageBox::critical(this, "Ошибка!", "Введено одно число!");
-        return;
+        return false;
     }
 
     if (text[text.length() - 1] == '-' || text[text.length() - 1] == ' ') {
         QMessageBox::critical(this, "Ошибка!", "Введено не два числа!");
-        return;
+        return false;
     }
 
-    ui->listDots->addItem(text);
+    return true;
+}
 
-    repaint();
+void MainWindow::on_btnAdd_clicked() {
+    QString text = ui->lineEdit->text();
+    ui->lineEdit->clear();
+
+    if (checkTwoInt(text)) {
+        ui->listDots->addItem(text);
+        repaint();
+    }
 }
 
 void MainWindow::on_btnDelAll_clicked()
@@ -289,55 +294,10 @@ void MainWindow::on_btnEdit_clicked()
     QString text = ui->lineEdit->text();
     ui->lineEdit->clear();
 
-    int count = 0;
-    bool wasNum = false;
-    QChar prev = '\0';
-    for (QChar a : text) {
-        if (!a.isDigit()) {
-            if (a == '-' && (prev == ' ' || prev == '\0')) {
-                prev = a;
-                continue;
-            }
+    if (checkTwoInt(text)) {
+        if (ui->listDots->currentItem())
+            ui->listDots->currentItem()->setText(text);
 
-            if (a == ' ') {
-                if (!wasNum) {
-                    QMessageBox::critical(this, "Ошибка!", "Пробел до чисел!");
-                    return;
-                }
-
-                count++;
-                wasNum = false;
-
-                if (count > 1) {
-                    QMessageBox::critical(this, "Ошибка!", "Лишние пробелы!");
-                    return;
-                } else {
-                    prev = a;
-                    continue;
-                }
-            }
-
-            QMessageBox::critical(this, "Ошибка!", "Введены не числа!");
-            return;
-        } else {
-            wasNum = true;
-        }
-
-        prev = a;
+        repaint();
     }
-
-    if (count == 0) {
-        QMessageBox::critical(this, "Ошибка!", "Введено одно число!");
-        return;
-    }
-
-    if (text[text.length() - 1] == '-' || text[text.length() - 1] == ' ') {
-        QMessageBox::critical(this, "Ошибка!", "Введено не два числа!");
-        return;
-    }
-
-    if (ui->listDots->currentItem() != NULL)
-        ui->listDots->currentItem()->setText(text);
-
-    repaint();
 }

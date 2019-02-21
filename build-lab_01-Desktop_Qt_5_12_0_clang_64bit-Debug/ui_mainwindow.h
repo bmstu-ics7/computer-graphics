@@ -30,11 +30,14 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    QSpacerItem *horizontalSpacer;
-    QLabel *label;
-    QPushButton *btnAdd;
-    QLineEdit *lineEdit;
     QListWidget *listDots;
+    QPushButton *btnAdd;
+    QPushButton *btnDel;
+    QLineEdit *lineEdit;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *btnDelAll;
+    QLabel *label;
+    QPushButton *btnEdit;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -51,20 +54,22 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        horizontalSpacer = new QSpacerItem(644, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        listDots = new QListWidget(centralWidget);
+        listDots->setObjectName(QString::fromUtf8("listDots"));
+        listDots->setMinimumSize(QSize(180, 0));
+        listDots->setMaximumSize(QSize(180, 16777215));
 
-        gridLayout->addItem(horizontalSpacer, 3, 0, 1, 1);
-
-        label = new QLabel(centralWidget);
-        label->setObjectName(QString::fromUtf8("label"));
-        label->setLayoutDirection(Qt::LeftToRight);
-
-        gridLayout->addWidget(label, 0, 1, 1, 1);
+        gridLayout->addWidget(listDots, 4, 1, 1, 1);
 
         btnAdd = new QPushButton(centralWidget);
         btnAdd->setObjectName(QString::fromUtf8("btnAdd"));
 
         gridLayout->addWidget(btnAdd, 2, 1, 1, 1);
+
+        btnDel = new QPushButton(centralWidget);
+        btnDel->setObjectName(QString::fromUtf8("btnDel"));
+
+        gridLayout->addWidget(btnDel, 5, 1, 1, 1);
 
         lineEdit = new QLineEdit(centralWidget);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
@@ -73,12 +78,25 @@ public:
 
         gridLayout->addWidget(lineEdit, 1, 1, 1, 1);
 
-        listDots = new QListWidget(centralWidget);
-        listDots->setObjectName(QString::fromUtf8("listDots"));
-        listDots->setMinimumSize(QSize(180, 0));
-        listDots->setMaximumSize(QSize(180, 16777215));
+        horizontalSpacer = new QSpacerItem(644, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addWidget(listDots, 3, 1, 1, 1);
+        gridLayout->addItem(horizontalSpacer, 4, 0, 1, 1);
+
+        btnDelAll = new QPushButton(centralWidget);
+        btnDelAll->setObjectName(QString::fromUtf8("btnDelAll"));
+
+        gridLayout->addWidget(btnDelAll, 6, 1, 1, 1);
+
+        label = new QLabel(centralWidget);
+        label->setObjectName(QString::fromUtf8("label"));
+        label->setLayoutDirection(Qt::LeftToRight);
+
+        gridLayout->addWidget(label, 0, 1, 1, 1);
+
+        btnEdit = new QPushButton(centralWidget);
+        btnEdit->setObjectName(QString::fromUtf8("btnEdit"));
+
+        gridLayout->addWidget(btnEdit, 3, 1, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -100,9 +118,14 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        btnAdd->setText(QApplication::translate("MainWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214 \321\202\320\276\321\207\320\272\321\203", nullptr));
+        btnDel->setText(QApplication::translate("MainWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214 \320\262\321\213\320\261\321\200\320\260\320\275\320\275\321\203\321\216 \n"
+"\321\202\320\276\321\207\320\272\321\203", nullptr));
+        btnDelAll->setText(QApplication::translate("MainWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214 \320\262\321\201\320\265 \321\202\320\276\321\207\320\272\320\270", nullptr));
         label->setText(QApplication::translate("MainWindow", "\320\222\320\262\320\265\320\264\320\270\321\202\320\265 \320\272\320\276\320\276\321\200\320\264\320\270\320\275\320\260\321\202\321\213 \321\202\320\276\321\207\320\272\320\270\n"
 "\321\207\320\265\321\200\320\265\320\267 \320\277\321\200\320\276\320\261\320\265\320\273 (x y)", nullptr));
-        btnAdd->setText(QApplication::translate("MainWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214 \321\202\320\276\321\207\320\272\321\203", nullptr));
+        btnEdit->setText(QApplication::translate("MainWindow", "\320\240\320\265\320\264\320\260\320\272\321\202\320\270\321\200\320\276\320\262\320\260\321\202\321\214\n"
+"\320\262\321\213\320\261\321\200\320\260\320\275\320\275\321\203\321\216 \321\202\320\276\321\207\320\272\321\203", nullptr));
     } // retranslateUi
 
 };

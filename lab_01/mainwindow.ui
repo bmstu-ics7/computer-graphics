@@ -21,27 +21,19 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="0">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
+    <item row="4" column="1">
+     <widget class="QListWidget" name="listDots">
+      <property name="minimumSize">
        <size>
-        <width>644</width>
-        <height>20</height>
+        <width>180</width>
+        <height>0</height>
        </size>
       </property>
-     </spacer>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="label">
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="text">
-       <string>Введите координаты точки
-через пробел (x y)</string>
+      <property name="maximumSize">
+       <size>
+        <width>180</width>
+        <height>16777215</height>
+       </size>
       </property>
      </widget>
     </item>
@@ -49,6 +41,14 @@
      <widget class="QPushButton" name="btnAdd">
       <property name="text">
        <string>Добавить точку</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QPushButton" name="btnDel">
+      <property name="text">
+       <string>Удалить выбранную 
+точку</string>
       </property>
      </widget>
     </item>
@@ -68,19 +68,42 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QListWidget" name="listDots">
-      <property name="minimumSize">
+    <item row="4" column="0">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
        <size>
-        <width>180</width>
-        <height>0</height>
+        <width>644</width>
+        <height>20</height>
        </size>
       </property>
-      <property name="maximumSize">
-       <size>
-        <width>180</width>
-        <height>16777215</height>
-       </size>
+     </spacer>
+    </item>
+    <item row="6" column="1">
+     <widget class="QPushButton" name="btnDelAll">
+      <property name="text">
+       <string>Удалить все точки</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="label">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>Введите координаты точки
+через пробел (x y)</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="btnEdit">
+      <property name="text">
+       <string>Редактировать
+выбранную точку</string>
       </property>
      </widget>
     </item>

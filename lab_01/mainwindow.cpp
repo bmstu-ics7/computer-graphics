@@ -39,6 +39,11 @@ double searchAngle(QPoint A, QPoint B, QPoint C) {
     double b = line(B, C); // BC
     double c = line(C, A); // AC
 
+    if (a + b <= c + 10e-6 ||
+        a + c <= b + 10e-6 ||
+        c + b <= a + 10e-6)
+        return 0;
+
     double alpha = acos((a * a + c * c - b * b) / (2 * a * c)); // Угол при вершине A (теорема косинусов)
     double betta = acos((a * a + b * b - c * c) / (2 * a * b)); // Угол при вершине B (теорема косинусов)
     double gamma = 180 - alpha - betta;
@@ -151,8 +156,8 @@ void MainWindow::paintEvent(QPaintEvent *) {
     double angleMax = 0;
     QList<QPoint> maxTriangle;
     for (int i = 0; i < points.size(); i++) {
-        for (int j = i; j < points.size(); j++) {
-            for (int k = j; k < points.size(); k++) {
+        for (int j = i + 1; j < points.size(); j++) {
+            for (int k = j + 1; k < points.size(); k++) {
                 QPoint A = points[i];
                 QPoint B = points[j];
                 QPoint C = points[k];
@@ -255,12 +260,84 @@ void MainWindow::on_btnAdd_clicked() {
         return;
     }
 
-    if (text[text.length() - 1] == '-') {
-        QMessageBox::critical(this, "Ошибка!", "Введены не числа!");
+    if (text[text.length() - 1] == '-' || text[text.length() - 1] == ' ') {
+        QMessageBox::critical(this, "Ошибка!", "Введено не два числа!");
         return;
     }
 
     ui->listDots->addItem(text);
+
+    repaint();
+}
+
+void MainWindow::on_btnDelAll_clicked()
+{
+    ui->listDots->clear();
+    repaint();
+}
+
+void MainWindow::on_btnDel_clicked()
+{
+    QListWidgetItem *current = ui->listDots->currentItem();
+    delete current;
+
+    repaint();
+}
+
+void MainWindow::on_btnEdit_clicked()
+{
+    QString text = ui->lineEdit->text();
+    ui->lineEdit->clear();
+
+    int count = 0;
+    bool wasNum = false;
+    QChar prev = '\0';
+    for (QChar a : text) {
+        if (!a.isDigit()) {
+            if (a == '-' && (prev == ' ' || prev == '\0')) {
+                prev = a;
+                continue;
+            }
+
+            if (a == ' ') {
+                if (!wasNum) {
+                    QMessageBox::critical(this, "Ошибка!", "Пробел до чисел!");
+                    return;
+                }
+
+                count++;
+                wasNum = false;
+
+                if (count > 1) {
+                    QMessageBox::critical(this, "Ошибка!", "Лишние пробелы!");
+                    return;
+                } else {
+                    prev = a;
+                    continue;
+                }
+            }
+
+            QMessageBox::critical(this, "Ошибка!", "Введены не числа!");
+            return;
+        } else {
+            wasNum = true;
+        }
+
+        prev = a;
+    }
+
+    if (count == 0) {
+        QMessageBox::critical(this, "Ошибка!", "Введено одно число!");
+        return;
+    }
+
+    if (text[text.length() - 1] == '-' || text[text.length() - 1] == ' ') {
+        QMessageBox::critical(this, "Ошибка!", "Введено не два числа!");
+        return;
+    }
+
+    if (ui->listDots->currentItem() != NULL)
+        ui->listDots->currentItem()->setText(text);
 
     repaint();
 }

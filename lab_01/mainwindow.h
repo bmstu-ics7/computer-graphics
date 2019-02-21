@@ -28,6 +28,12 @@ public:
 private slots:
     void on_btnAdd_clicked();
 
+    void on_btnDelAll_clicked();
+
+    void on_btnDel_clicked();
+
+    void on_btnEdit_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

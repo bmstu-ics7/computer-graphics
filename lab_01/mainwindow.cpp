@@ -6,7 +6,6 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -114,7 +113,6 @@ QPointF findHeight(QList<QPoint> maxTriangle, int indexAngle) {
     double b = B.y() - k * B.x();
 
     double k_new = -1 / k;
-    qDebug() << B << C << k_new << ' ' << k;
     double b_new = A.y() - k_new * A.x();
 
     double heightX = (b_new - b) / (k - k_new);

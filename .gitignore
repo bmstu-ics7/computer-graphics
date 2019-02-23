@@ -3,4 +3,4 @@
 moc_mainwindow.*
 moc_predefs.h
 ui_mainwindow.h
-
+build*/*

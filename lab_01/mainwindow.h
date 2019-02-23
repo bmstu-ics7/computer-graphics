@@ -12,6 +12,8 @@
 #include <cmath>
 #include <math.h>
 
+#define RADIAN 57.2958
+
 namespace Ui {
 class MainWindow;
 }

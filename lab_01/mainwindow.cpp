@@ -31,9 +31,10 @@ double min(double a, double b) {
     return a < b ? a : b;
 }
 
-/*
- * Находит угол между высотой и биссектрисой, выходящих из вершины B
- */
+/*********************************************************************
+ * Находит угол между высотой и биссектрисой, выходящих из вершины B *
+ *********************************************************************/
+
 double searchAngle(QPoint A, QPoint B, QPoint C) {
     double a = line(A, B); // AB
     double b = line(B, C); // BC
@@ -44,14 +45,82 @@ double searchAngle(QPoint A, QPoint B, QPoint C) {
         c + b <= a + 10e-6)
         return 0;
 
-    double alpha = acos((a * a + c * c - b * b) / (2 * a * c)); // Угол при вершине A (теорема косинусов)
-    double betta = acos((a * a + b * b - c * c) / (2 * a * b)); // Угол при вершине B (теорема косинусов)
+    double alpha = acos((a * a + c * c - b * b) / (2 * a * c)) * RADIAN;    // Угол при вершине A (теорема косинусов)
+    double betta = acos((a * a + b * b - c * c) / (2 * a * b)) * RADIAN;    // Угол при вершине B (теорема косинусов)
     double gamma = 180 - alpha - betta;
 
-    double angle = 90 - min(180 - betta / 2 - alpha,            // Первый случай, когда биссектриса между H и A
-                            180 - betta / 2 - gamma);           // Второй случай, когда биссектриса между H и C
-                                                                // BH - высота
+    double angle = 90 - min(180 - betta / 2 - alpha,                        // Первый случай, когда биссектриса между H и A
+                            180 - betta / 2 - gamma);                       // Второй случай, когда биссектриса между H и C
+                                                                            // BH - высота
     return angle;
+}
+
+/*********************************************************************
+ *                   Находит координату биссектрисы                  *
+ *********************************************************************/
+
+QPointF findBisectrisa(QList<QPoint> maxTriangle, int indexAngle) {
+    QPoint A = maxTriangle[indexAngle];
+    QPoint B;
+    QPoint C;
+
+    if (indexAngle == 0) {
+        B = maxTriangle[1];
+        C = maxTriangle[2];
+    } else if (indexAngle == 1) {
+        B = maxTriangle[0];
+        C = maxTriangle[2];
+    } else {
+        B = maxTriangle[0];
+        C = maxTriangle[1];
+    }
+
+    double c = line(A, B);
+    double b = line(C, A);
+
+    double x = (c * C.x() + b * B.x()) / (c + b);
+    double y = (c * C.y() + b * B.y()) / (c + b);
+
+    return QPointF(x, -y);
+}
+
+/*********************************************************************
+ *                     Находит координату высоты                     *
+ *********************************************************************/
+
+QPointF findHeight(QList<QPoint> maxTriangle, int indexAngle) {
+    QPoint A = maxTriangle[indexAngle];
+    QPoint B;
+    QPoint C;
+
+    if (indexAngle == 0) {
+        B = maxTriangle[1];
+        C = maxTriangle[2];
+    } else if (indexAngle == 1) {
+        B = maxTriangle[0];
+        C = maxTriangle[2];
+    } else {
+        B = maxTriangle[0];
+        C = maxTriangle[1];
+    }
+
+    if (B.x() == C.x())
+        return QPointF(B.x(), A.y());
+
+    if (B.y() == C.y())
+        return QPointF(A.x(), B.y());
+
+    double k = double(B.y() - C.y()) / (B.x() - C.x());
+    double b = B.y() - k * B.x();
+
+    double k_new = -1 / k;
+    qDebug() << B << C << k_new << ' ' << k;
+    double b_new = A.y() - k_new * A.x();
+
+    double heightX = (b_new - b) / (k - k_new);
+    double heightY = k * heightX + b;
+
+    return QPointF(heightX, heightY);
 }
 
 void MainWindow::paintEvent(QPaintEvent *) {
@@ -155,6 +224,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
     double angleMax = 0;
     QList<QPoint> maxTriangle;
+    int indexAngle = 0;
     for (int i = 0; i < points.size(); i++) {
         for (int j = i + 1; j < points.size(); j++) {
             for (int k = j + 1; k < points.size(); k++) {
@@ -162,9 +232,11 @@ void MainWindow::paintEvent(QPaintEvent *) {
                 QPoint B = points[j];
                 QPoint C = points[k];
 
-                double angle = max(searchAngle(A, B, C),
-                                   searchAngle(B, A, C),
-                                   searchAngle(A, C, B));
+                double angleB = searchAngle(A, B, C);
+                double angleA = searchAngle(C, A, B);
+                double angleC = searchAngle(B, C, A);
+
+                double angle = max(angleA, angleB, angleC);
 
                 if (angleMax < angle && angle < 90) {
                     angleMax = angle;
@@ -172,12 +244,20 @@ void MainWindow::paintEvent(QPaintEvent *) {
                     maxTriangle.append(A);
                     maxTriangle.append(B);
                     maxTriangle.append(C);
+
+                    if (abs(angle - angleA) <= 10e-6) indexAngle = 0;
+                    if (abs(angle - angleB) <= 10e-6) indexAngle = 1;
+                    if (abs(angle - angleC) <= 10e-6) indexAngle = 2;
                 }
             }
         }
     }
 
     if (angleMax > 0) {
+        /**************************************
+         *       Рисование треугольника       *
+         **************************************/
+
         p.setPen(QPen(Qt::red, 2, Qt::SolidLine, Qt::FlatCap));
 
         p.drawLine(int(canvasWidth  / 2 + maxTriangle[0].x() *  step),
@@ -194,6 +274,36 @@ void MainWindow::paintEvent(QPaintEvent *) {
                    int(canvasHeight / 2 + maxTriangle[2].y() * -step),
                    int(canvasWidth  / 2 + maxTriangle[0].x() *  step),
                    int(canvasHeight / 2 + maxTriangle[0].y() * -step));
+
+        /**************************************
+         *       Рисование биссектрисы        *
+         **************************************/
+
+        QPointF bisectrisa = findBisectrisa(maxTriangle, indexAngle);
+
+        p.setPen(QPen(Qt::blue, 1, Qt::SolidLine, Qt::FlatCap));
+
+        p.drawLine(int(canvasWidth  / 2 + maxTriangle[indexAngle].x() *  step),
+                   int(canvasHeight / 2 + maxTriangle[indexAngle].y() * -step),
+                   int(canvasWidth  / 2 + bisectrisa.x() *  step),
+                   int(canvasHeight / 2 + bisectrisa.y() *  step));
+
+        /**************************************
+         *          Рисование высоты          *
+         **************************************/
+
+        QPointF height = findHeight(maxTriangle, indexAngle);
+
+        p.setPen(QPen(Qt::darkGreen, 1, Qt::SolidLine, Qt::FlatCap));
+
+        p.drawLine(int(canvasWidth  / 2 + maxTriangle[indexAngle].x() *  step),
+                   int(canvasHeight / 2 + maxTriangle[indexAngle].y() * -step),
+                   int(canvasWidth  / 2 + height.x() *  step),
+                   int(canvasHeight / 2 + height.y() * -step));
+
+        /**************************************
+         *          Рисование текста          *
+         **************************************/
 
         p.setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::FlatCap));
 
@@ -213,6 +323,10 @@ void MainWindow::paintEvent(QPaintEvent *) {
                                + QString::number(maxTriangle[2].y()) + ")"));
     }
 }
+
+/*********************************************************************
+ *                      Проверка входных данных                      *
+ *********************************************************************/
 
 bool MainWindow::checkTwoInt(QString text) {
     int count = 0;

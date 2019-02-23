@@ -1,0 +1,6 @@
+.DS_Store
+*.o
+moc_mainwindow.*
+moc_predefs.h
+ui_mainwindow.h
+

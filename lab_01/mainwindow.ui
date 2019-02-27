@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>595</height>
+    <width>851</width>
+    <height>587</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
+    <width>600</width>
     <height>400</height>
    </size>
   </property>
@@ -21,41 +21,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="6" column="1">
-     <widget class="QPushButton" name="btnDelAll">
-      <property name="text">
-       <string>Удалить все точки</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QPushButton" name="btnAdd">
-      <property name="text">
-       <string>Добавить точку</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QPushButton" name="btnDel">
-      <property name="text">
-       <string>Удалить выбранную 
-точку</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>644</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
     <item row="4" column="1">
      <widget class="QListWidget" name="listDots">
       <property name="minimumSize">
@@ -72,14 +37,18 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="label">
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="btnAdd">
       <property name="text">
-       <string>Введите координаты точки
-через пробел (x y)</string>
+       <string>Добавить точку</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QPushButton" name="btnDel">
+      <property name="text">
+       <string>Удалить выбранную 
+точку</string>
       </property>
      </widget>
     </item>
@@ -99,31 +68,42 @@
       </property>
      </widget>
     </item>
+    <item row="4" column="0">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>644</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="6" column="1">
+     <widget class="QPushButton" name="btnDelAll">
+      <property name="text">
+       <string>Удалить все точки</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="label">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>Введите координаты точки
+через пробел (x y)</string>
+      </property>
+     </widget>
+    </item>
     <item row="3" column="1">
      <widget class="QPushButton" name="btnEdit">
       <property name="text">
        <string>Редактировать
 выбранную точку</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>На плоскости дано множество точек. Найти такой треугольник, у которого угол между
-биссектрисой и высотой, выходящих из одной  вершины, максимален</string>
       </property>
      </widget>
     </item>
@@ -134,7 +114,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>851</width>
      <height>22</height>
     </rect>
    </property>

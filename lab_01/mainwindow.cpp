@@ -6,6 +6,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,7 +19,7 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-double line(QPoint a, QPoint b) {
+double line(QPointF a, QPointF b) {
     return sqrt(pow(a.x() - b.x(), 2) + pow(a.y() - b.y(), 2));
 }
 
@@ -34,7 +35,7 @@ double min(double a, double b) {
  * Находит угол между высотой и биссектрисой, выходящих из вершины B *
  *********************************************************************/
 
-double searchAngle(QPoint A, QPoint B, QPoint C) {
+double searchAngle(QPointF A, QPointF B, QPointF C) {
     double a = line(A, B); // AB
     double b = line(B, C); // BC
     double c = line(C, A); // AC
@@ -58,10 +59,10 @@ double searchAngle(QPoint A, QPoint B, QPoint C) {
  *                   Находит координату биссектрисы                  *
  *********************************************************************/
 
-QPointF findBisectrisa(QList<QPoint> maxTriangle, int indexAngle) {
-    QPoint A = maxTriangle[indexAngle];
-    QPoint B;
-    QPoint C;
+QPointF findBisectrisa(QList<QPointF> maxTriangle, int indexAngle) {
+    QPointF A = maxTriangle[indexAngle];
+    QPointF B;
+    QPointF C;
 
     if (indexAngle == 0) {
         B = maxTriangle[1];
@@ -87,10 +88,10 @@ QPointF findBisectrisa(QList<QPoint> maxTriangle, int indexAngle) {
  *                     Находит координату высоты                     *
  *********************************************************************/
 
-QPointF findHeight(QList<QPoint> maxTriangle, int indexAngle) {
-    QPoint A = maxTriangle[indexAngle];
-    QPoint B;
-    QPoint C;
+QPointF findHeight(QList<QPointF> maxTriangle, int indexAngle) {
+    QPointF A = maxTriangle[indexAngle];
+    QPointF B;
+    QPointF C;
 
     if (indexAngle == 0) {
         B = maxTriangle[1];
@@ -103,10 +104,10 @@ QPointF findHeight(QList<QPoint> maxTriangle, int indexAngle) {
         C = maxTriangle[1];
     }
 
-    if (B.x() == C.x())
+    if (fabs(B.x() - C.x()) <= 10e-6)
         return QPointF(B.x(), A.y());
 
-    if (B.y() == C.y())
+    if (fabs(B.y() - C.y()) <= 10e-6)
         return QPointF(A.x(), B.y());
 
     double k = double(B.y() - C.y()) / (B.x() - C.x());
@@ -125,49 +126,22 @@ void MainWindow::paintEvent(QPaintEvent *) {
     QPainter p(this);
 
     int canvasWidth = width() - 200;
-    int canvasHeight = height();
+    int canvasHeight = height() - 80;
     p.fillRect(0, 0, canvasWidth, canvasHeight, Qt::white);
 
-    int maxX = 0;
-    int maxY = 0;
+    double maxX = 0;
+    double maxY = 0;
 
-    QList<QPoint> points;
+    QList<QPointF> points;
     for (int row = 0; row < ui->listDots->count(); row++) {
         QListWidgetItem *item = ui->listDots->item(row);
         QString str = item->text();
-        int x = 0;
-        int y = 0;
+        double x = str.split(" ")[0].toDouble();
+        double y = str.split(" ")[1].toDouble();
+        points.append(QPointF(x, y));
 
-        bool modeX = true;
-        int xMinus = 1;
-        int yMinus = 1;
-
-        for (QChar c : str) {
-            if (modeX) {
-                if (c == ' ') {
-                    modeX = false;
-                    continue;
-                }
-                if (c == '-') {
-                    xMinus = -1;
-                    continue;
-                }
-
-                x = x * 10 + c.unicode() - 48;
-            } else {
-                if (c == '-') {
-                    yMinus = -1;
-                    continue;
-                }
-
-                y = y * 10 + c.unicode() - 48;
-            }
-        }
-
-        if (maxX < x) maxX = x;
-        if (maxY < y) maxY = y;
-
-        points.append(QPoint(x * xMinus, y * yMinus));
+        if (maxX < fabs(x)) maxX = fabs(x);
+        if (maxY < fabs(y)) maxY = fabs(y);
     }
 
     double step = 20;
@@ -175,14 +149,14 @@ void MainWindow::paintEvent(QPaintEvent *) {
         step = 10;
     } else {
         if (maxX <= 0) {
-            step = int(canvasHeight / ++maxY / 2);
+            step = double(canvasHeight) / ++maxY / 2;
         } else if (maxY <= 0) {
-            step = int(canvasWidth / ++maxX / 2);
+            step = double(canvasWidth) / ++maxX / 2;
         } else {
-            if (int(canvasWidth / maxX) <= int(canvasHeight / maxY)) {
-                step = int(canvasWidth / ++maxX / 2);
+            if (double(canvasWidth / maxX) <= int(canvasHeight / maxY)) {
+                step = double(canvasWidth) / ++maxX / 2;
             } else {
-                step = int(canvasHeight / ++maxY / 2);
+                step = double(canvasHeight) / ++maxY / 2;
             }
         }
     }
@@ -199,15 +173,15 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
     if (step > 4) {
         p.setPen(QPen(Qt::gray, 1, Qt::SolidLine, Qt::FlatCap));
-        for (int i = canvasWidth / 2; i <= canvasWidth; i += step)
-            p.drawLine(i, 0, i, canvasHeight);
-        for (int i = canvasWidth / 2; i >= 0; i -= step)
-            p.drawLine(i, 0, i, canvasHeight);
+        for (double i = canvasWidth / 2; i <= canvasWidth; i += step)
+            p.drawLine(int(i), 0, int(i), canvasHeight);
+        for (double i = canvasWidth / 2; i >= 0; i -= step)
+            p.drawLine(int(i), 0, int(i), canvasHeight);
 
-        for (int i = canvasHeight / 2; i <= canvasHeight; i += step)
-            p.drawLine(0, i, canvasWidth, i);
-        for (int i = canvasHeight / 2; i >= 0; i -= step)
-            p.drawLine(0, i, canvasWidth, i);
+        for (double i = canvasHeight / 2; i <= canvasHeight; i += step)
+            p.drawLine(0, int(i), canvasWidth, int(i));
+        for (double i = canvasHeight / 2; i >= 0; i -= step)
+            p.drawLine(0, int(i), canvasWidth, int(i));
     }
 
     p.setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::FlatCap));
@@ -216,19 +190,19 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
     p.setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::FlatCap));
     p.setBrush(QBrush(Qt::black));
-    for (QPoint point : points) {
-        p.drawEllipse(QPoint(int(canvasWidth / 2 + point.x() * step), int(canvasHeight / 2 + point.y() * -step)), 3, 3);
+    for (QPointF point : points) {
+        p.drawEllipse(QPointF(floor(canvasWidth / 2 + point.x() * step), floor(canvasHeight / 2 + point.y() * -step)), 3, 3);
     }
 
     double angleMax = 0;
-    QList<QPoint> maxTriangle;
+    QList<QPointF> maxTriangle;
     int indexAngle = 0;
     for (int i = 0; i < points.size(); i++) {
         for (int j = i + 1; j < points.size(); j++) {
             for (int k = j + 1; k < points.size(); k++) {
-                QPoint A = points[i];
-                QPoint B = points[j];
-                QPoint C = points[k];
+                QPointF A = points[i];
+                QPointF B = points[j];
+                QPointF C = points[k];
 
                 double angleB = searchAngle(A, B, C);
                 double angleA = searchAngle(C, A, B);
@@ -238,7 +212,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
 
                 if (angleMax < angle && angle < 90) {
                     angleMax = angle;
-                    maxTriangle = QList<QPoint>();
+                    maxTriangle = QList<QPointF>();
                     maxTriangle.append(A);
                     maxTriangle.append(B);
                     maxTriangle.append(C);
@@ -327,50 +301,32 @@ void MainWindow::paintEvent(QPaintEvent *) {
  *********************************************************************/
 
 bool MainWindow::checkTwoInt(QString text) {
-    int count = 0;
-    bool wasNum = false;
-    QChar prev = '\0';
-    for (QChar a : text) {
-        if (!a.isDigit()) {
-            if (a == '-' && (prev == ' ' || prev == '\0')) {
-                prev = a;
-                continue;
-            }
-
-            if (a == ' ') {
-                if (!wasNum) {
-                    QMessageBox::critical(this, "Ошибка!", "Пробел до чисел!");
-                    return false;
-                }
-
-                count++;
-                wasNum = false;
-
-                if (count > 1) {
-                    QMessageBox::critical(this, "Ошибка!", "Лишние пробелы!");
-                    return false;
-                } else {
-                    prev = a;
-                    continue;
-                }
-            }
-
-            QMessageBox::critical(this, "Ошибка!", "Введены не числа!");
-            return false;
-        } else {
-            wasNum = true;
+    QList<QString> numbers = text.split(" ");
+    for (int i = 0; i < numbers.count(); i++) {
+        if (numbers[i] == "") {
+            numbers.removeAt(i);
+            i--;
         }
-
-        prev = a;
     }
 
-    if (count == 0) {
-        QMessageBox::critical(this, "Ошибка!", "Введено одно число!");
+    qDebug() << numbers;
+
+    if (numbers.count() != 2) {
+        QMessageBox::critical(this, "Ошибка", "Введено не 2 числа");
         return false;
     }
 
-    if (text[text.length() - 1] == '-' || text[text.length() - 1] == ' ') {
-        QMessageBox::critical(this, "Ошибка!", "Введено не два числа!");
+    double x = 0;
+    double y = 0;
+
+    bool keyX = false;
+    bool keyY = false;
+
+    x = numbers[0].toDouble(&keyX);
+    y = numbers[1].toDouble(&keyY);
+
+    if (!(keyY && keyX)) {
+        QMessageBox::critical(this, "Ошибка", "Введены не числа");
         return false;
     }
 

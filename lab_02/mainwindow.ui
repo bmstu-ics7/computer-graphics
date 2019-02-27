@@ -6,16 +6,22 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>642</width>
-    <height>469</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="0">
+    <item row="8" column="0">
      <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -28,44 +34,31 @@
       </property>
      </spacer>
     </item>
-    <item row="3" column="1">
-     <widget class="QPushButton" name="btnOffcsetX">
-      <property name="minimumSize">
-       <size>
-        <width>180</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>180</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Применить
-смещение по x</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QLineEdit" name="lineRotate">
-      <property name="minimumSize">
-       <size>
-        <width>180</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>180</width>
-        <height>16777215</height>
-       </size>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="lineSize">
+     <widget class="QLineEdit" name="lineScale">
+      <property name="minimumSize">
+       <size>
+        <width>180</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>180</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QPushButton" name="btnRotate">
+      <property name="text">
+       <string>Поворот</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QListWidget" name="listActions">
       <property name="minimumSize">
        <size>
         <width>180</width>
@@ -96,61 +89,32 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="1">
-     <widget class="QPushButton" name="btnRotate">
-      <property name="minimumSize">
-       <size>
-        <width>180</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>180</width>
-        <height>16777215</height>
-       </size>
-      </property>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="btnScale">
       <property name="text">
-       <string>Применить вращение</string>
+       <string>Масштабирование</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="btnOffseX">
+      <property name="text">
+       <string>Смещение по x</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1">
+     <widget class="QPushButton" name="btnCancel">
+      <property name="text">
+       <string>Отменить последнее
+действие</string>
       </property>
      </widget>
     </item>
     <item row="5" column="1">
      <widget class="QPushButton" name="btnOffsetY">
-      <property name="minimumSize">
-       <size>
-        <width>180</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>180</width>
-        <height>16777215</height>
-       </size>
-      </property>
       <property name="text">
-       <string>Применить
-смещение по Y</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QPushButton" name="btnSize">
-      <property name="minimumSize">
-       <size>
-        <width>180</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>180</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Применить масштаб</string>
+       <string>Смещение по y</string>
       </property>
      </widget>
     </item>
@@ -170,8 +134,8 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="1">
-     <widget class="QListWidget" name="listWidget">
+    <item row="6" column="1">
+     <widget class="QLineEdit" name="lineRotate">
       <property name="minimumSize">
        <size>
         <width>180</width>
@@ -193,7 +157,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>642</width>
+     <width>800</width>
      <height>22</height>
     </rect>
    </property>

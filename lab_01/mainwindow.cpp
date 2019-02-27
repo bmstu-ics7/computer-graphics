@@ -309,8 +309,6 @@ bool MainWindow::checkTwoInt(QString text) {
         }
     }
 
-    qDebug() << numbers;
-
     if (numbers.count() != 2) {
         QMessageBox::critical(this, "Ошибка", "Введено не 2 числа");
         return false;

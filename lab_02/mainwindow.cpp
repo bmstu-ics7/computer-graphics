@@ -29,7 +29,6 @@ void MainWindow::paintEvent(QPaintEvent *)
     p.fillRect(0, 0, canvasWidth, canvasHeight, Qt::white);
 
     QPair<int, int> centerCoordinate(int(canvasWidth / 2), int(canvasHeight / 2));
-    QPair<int, int> center;
 
     int RX = int(200 * scaleX[scaleX.count() - 1]);
     int RY = int(200 * scaleY[scaleY.count() - 1]);
@@ -40,13 +39,20 @@ void MainWindow::paintEvent(QPaintEvent *)
     p.drawLine(centerCoordinate.first, 0, centerCoordinate.first, canvasHeight);
     p.drawLine(0, centerCoordinate.second, canvasWidth, centerCoordinate.second);
 
-    p.rotate(angle);
-    double Cx = centerCoordinate.first / 2;
-    double Cy = -centerCoordinate.second / 2;
+    p.rotate(-angle);
+    double Cx = 0; // -centerCoordinate.first;
+    double Cy = 0; // centerCoordinate.second;
+
+    p.setPen(QPen(Qt::black, 4, Qt::SolidLine));
+
     int x = int(canvasWidth / 2 + offsetX[offsetX.count() - 1]);
     int y = int(canvasHeight / 2 - offsetY[offsetY.count() - 1]);
-    center = QPair<int, int>(int(Cx + (x - Cx) * cos(-angle / RADIANS) + (y - Cy) * sin(-angle / RADIANS)),
-                             int(Cy - (x - Cx) * sin(-angle / RADIANS) + (y - Cy) * cos(-angle / RADIANS)));
+
+    QPair<int, int> center;
+    center = QPair<int, int>(int(Cx + (x - Cx) * cos(angle / RADIANS) - (y - Cy) * sin(angle / RADIANS)),
+                             int(Cy + (x - Cx) * sin(angle / RADIANS) + (y - Cy) * cos(angle / RADIANS)));
+
+    qDebug() << x << y << center;
 
     p.setPen(QPen(Qt::black, 2, Qt::SolidLine));
     p.drawEllipse(center.first - RX, center.second - RY, RX * 2, RY * 2);
@@ -236,8 +242,8 @@ void MainWindow::on_btnRotate_clicked()
                                    this->offsetY[this->offsetY.count() - 1]);
 
     QPair<double, double> newCenter;
-    newCenter = QPair<double, double>(Cx + (center.first - Cx) * cos(angle / RADIANS) + (center.second - Cy) * sin(angle/ RADIANS),
-                                      Cy - (center.first - Cx) * sin(angle/ RADIANS) + (center.second - Cy) * cos(angle/ RADIANS));
+    newCenter = QPair<double, double>(Cx + (center.first - Cx) * cos(angle / RADIANS) - (center.second - Cy) * sin(angle / RADIANS),
+                                      Cy + (center.first - Cx) * sin(angle / RADIANS) + (center.second - Cy) * cos(angle / RADIANS));
 
     this->scaleX.append(this->scaleX[this->rotate.count() - 1]);
     this->scaleY.append(this->scaleY[this->rotate.count() - 1]);

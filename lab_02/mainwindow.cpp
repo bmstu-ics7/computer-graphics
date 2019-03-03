@@ -40,8 +40,8 @@ void MainWindow::paintEvent(QPaintEvent *)
     p.drawLine(0, centerCoordinate.second, canvasWidth, centerCoordinate.second);
 
     p.rotate(-angle);
-    double Cx = 0; // -centerCoordinate.first;
-    double Cy = 0; // centerCoordinate.second;
+    double Cx = 0;
+    double Cy = 0;
 
     p.setPen(QPen(Qt::black, 4, Qt::SolidLine));
 
@@ -51,8 +51,6 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPair<int, int> center;
     center = QPair<int, int>(int(Cx + (x - Cx) * cos(angle / RADIANS) - (y - Cy) * sin(angle / RADIANS)),
                              int(Cy + (x - Cx) * sin(angle / RADIANS) + (y - Cy) * cos(angle / RADIANS)));
-
-    qDebug() << x << y << center;
 
     p.setPen(QPen(Qt::black, 2, Qt::SolidLine));
     p.drawEllipse(center.first - RX, center.second - RY, RX * 2, RY * 2);

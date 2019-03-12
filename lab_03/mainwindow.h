@@ -7,6 +7,7 @@
 #include <QColorDialog>
 
 #include "line.h"
+#include "point.h"
 
 #define RADIANS 57.2958
 

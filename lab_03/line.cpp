@@ -9,7 +9,7 @@ Line::Line(double sx, double sy, double fx, double fy, QColor c, int a)
     alghoritm = a;
 }
 
-QList<QPoint> Line::draw()
+QList<Point> Line::draw()
 {
     switch (alghoritm) {
     case 0:
@@ -23,13 +23,13 @@ QList<QPoint> Line::draw()
     case 4:
         return Library();
     default:
-        return QList<QPoint>();
+        return QList<Point>();
     }
 }
 
-QList<QPoint> Line::CDA()
+QList<Point> Line::CDA()
 {
-    QList<QPoint> points;
+    QList<Point> points;
 
     double dx = finish.x() - start.x();
     double dy = finish.y() - start.y();
@@ -43,7 +43,7 @@ QList<QPoint> Line::CDA()
     double y = start.y();
 
     for (int i = 1; i <= l + 1; i++) {
-        points.append(QPoint(int(x), int(y)));
+        points.append(Point(QPoint(int(x), int(y)), color));
         x += sx;
         y += sy;
     }
@@ -51,12 +51,12 @@ QList<QPoint> Line::CDA()
     return points;
 }
 
-QList<QPoint> Line::BFloat()
+QList<Point> Line::BFloat()
 {
-    QList<QPoint> points;
+    QList<Point> points;
 
     if (int(start.x()) == int(finish.x()) && int(start.y()) == int(finish.y())) {
-        points.append(QPoint(int(start.x()), int(start.y())));
+        points.append(Point(QPoint(int(start.x()), int(start.y())), color));
         return points;
     }
 
@@ -89,7 +89,7 @@ QList<QPoint> Line::BFloat()
     double e = m - (1.0 / 2);
 
     for (int i = 1; i <= dx + 1; i++) {
-        points.append(QPoint(x, y));
+        points.append(Point(QPoint(x, y), color));
 
         if (e > 0) {
             if (swap) {
@@ -113,12 +113,12 @@ QList<QPoint> Line::BFloat()
     return points;
 }
 
-QList<QPoint> Line::BInt()
+QList<Point> Line::BInt()
 {
-    QList<QPoint> points;
+    QList<Point> points;
 
     if (int(start.x()) == int(finish.x()) && int(start.y()) == int(finish.y())) {
-        points.append(QPoint(int(start.x()), int(start.y())));
+        points.append(Point(QPoint(int(start.x()), int(start.y())), color));
         return points;
     }
 
@@ -145,7 +145,7 @@ QList<QPoint> Line::BInt()
     int e = 2 * dy - dx;
 
     for (int i = 1; i <= dx + 1; i++) {
-        points.append(QPoint(x, y));
+        points.append(Point(QPoint(x, y), color));
 
         if (e > 0) {
             if (swap) {
@@ -170,9 +170,16 @@ QList<QPoint> Line::BInt()
     return points;
 }
 
-QList<QPoint> Line::BLadder()
+QList<Point> Line::BLadder()
 {
-    QList<QPoint> points;
+    double I = 0.5;
+
+    QList<Point> points;
+
+    if (int(start.x()) == int(finish.x()) && int(start.y()) == int(finish.y())) {
+        points.append(Point(QPoint(int(start.x()), int(start.y())), color));
+        return points;
+    }
 
     int dx = int(finish.x()) - int(start.x());
     int dy = int(finish.y()) - int(start.y());
@@ -183,20 +190,60 @@ QList<QPoint> Line::BLadder()
     dx = abs(dx);
     dy = abs(dy);
 
+    double m = 0;
+
+    bool swap = false;
+    if (dy > dx) {
+        swap = true;
+        m = double(dx) / dy;
+        int t = dx;
+        dx = dy;
+        dy = t;
+    } else {
+        swap = false;
+        m = double(dy) / dx;
+    }
+
+    double e = I / 2;
+
+    m *= I;
+    double W = I - m;
+
+    int x = int(start.x());
+    int y = int(start.y());
+
+    QColor copy = color;
+    copy.setAlphaF(e);
+    points.append(Point(QPoint(x, y), copy));
+
+    for (int i = 1; i <= dx; i++) {
+        if (e < W) {
+            if (swap) {
+                y += sy;
+            } else {
+                x += sx;
+            }
+            e += m;
+        } else {
+            x += sx;
+            y += sy;
+            e -= W;
+        }
+
+        QColor copy = color;
+        copy.setAlphaF(e);
+        points.append(Point(QPoint(x, y), copy));
+    }
+
     return points;
 }
 
-QList<QPoint> Line::Library()
+QList<Point> Line::Library()
 {
-    QList<QPoint> points;
-    points.append(QPoint(int(start.x()), int(start.y())));
-    points.append(QPoint(int(finish.x()), int(finish.y())));
+    QList<Point> points;
+    points.append(Point(QPoint(int(start.x()), int(start.y())), color));
+    points.append(Point(QPoint(int(finish.x()), int(finish.y())), color));
     return points;
-}
-
-QColor Line::getColor()
-{
-    return color;
 }
 
 bool Line::isLibrary()

@@ -6,6 +6,8 @@
 #include <QColor>
 #include <cmath>
 
+#include <point.h>
+
 class Line
 {
 private:
@@ -13,15 +15,14 @@ private:
     QPointF finish;
     QColor color;
     int alghoritm;
-    QList<QPoint> CDA();
-    QList<QPoint> BFloat();
-    QList<QPoint> BInt();
-    QList<QPoint> BLadder();
-    QList<QPoint> Library();
+    QList<Point> CDA();
+    QList<Point> BFloat();
+    QList<Point> BInt();
+    QList<Point> BLadder();
+    QList<Point> Library();
 public:
     Line(double, double, double, double, QColor, int);
-    QList<QPoint> draw();
-    QColor getColor();
+    QList<Point> draw();
     bool isLibrary();
 };
 

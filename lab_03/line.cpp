@@ -172,7 +172,7 @@ QList<Point> Line::BInt()
 
 QList<Point> Line::BLadder()
 {
-    double I = 0.5;
+    double I = 256;
 
     QList<Point> points;
 
@@ -204,7 +204,7 @@ QList<Point> Line::BLadder()
         m = double(dy) / dx;
     }
 
-    double e = I / 2;
+    double e = 1.0 / 2;
 
     m *= I;
     double W = I - m;
@@ -212,27 +212,37 @@ QList<Point> Line::BLadder()
     int x = int(start.x());
     int y = int(start.y());
 
+    int xa = swap ? x - sx : x;
+    int ya = swap ? y : y - sy;
+
     QColor copy = color;
-    copy.setAlphaF(e);
+    copy.setAlpha(int(m / 2));
     points.append(Point(QPoint(x, y), copy));
 
     for (int i = 1; i <= dx; i++) {
         if (e < W) {
             if (swap) {
                 y += sy;
+                ya += sy;
             } else {
                 x += sx;
+                xa += sx;
             }
             e += m;
         } else {
             x += sx;
+            xa += sx;
             y += sy;
+            ya += sy;
             e -= W;
         }
 
         QColor copy = color;
-        copy.setAlphaF(e);
+        copy.setAlpha(int(e));
         points.append(Point(QPoint(x, y), copy));
+
+        copy.setAlpha(int(I - e));
+        points.append(Point(QPoint(xa, ya), copy));
     }
 
     return points;

@@ -10,6 +10,7 @@
 #include "point.h"
 
 #define RADIANS 57.2958
+#define PI 3.1415926535
 
 namespace Ui {
 class MainWindow;

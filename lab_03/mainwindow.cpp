@@ -105,8 +105,8 @@ void MainWindow::on_btnBundle_clicked()
         return;
     }
 
-    for (int angle = 0; angle < 360; angle += step) {
-        lines.append(Line(0, 0, length * cos(angle / RADIANS), length * sin(angle / RADIANS), currentLineColor, alg));
+    for (double angle = 0; angle <= 360; angle += step) {
+        lines.append(Line(0, 0, length * cos(angle * PI / 180), length * sin(angle * PI / 180), currentLineColor, alg));
     }
 
     repaint();

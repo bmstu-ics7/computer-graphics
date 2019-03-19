@@ -35,22 +35,7 @@ void MainWindow::paintEvent(QPaintEvent*)
     p.drawLine(0, canvasHeight / 2, canvasWidht, canvasHeight / 2);
 
     for (Line line : lines) {
-        QList<Point> points = line.draw();
-        if (line.isLibrary()) {
-            QPoint po1 = points[0].getPoint();
-            QPoint po2 = points[1].getPoint();
-            p.setPen(QPen(points[0].getColor(), 1));
-
-            p.drawLine(canvasWidht / 2 + po1.x(), canvasHeight / 2 - po1.y(),
-                       canvasWidht / 2 + po2.x(), canvasHeight / 2 - po2.y());
-        } else {
-            for (Point point : points) {
-                QPoint po = point.getPoint();
-                p.setPen(QPen(point.getColor(), 1));
-
-                p.drawPoint(canvasWidht / 2 + po.x(), canvasHeight / 2 - po.y());
-            }
-        }
+        line.draw(p, canvasWidht, canvasHeight);
     }
 }
 
@@ -138,4 +123,11 @@ void MainWindow::on_btnBColor_clicked()
     delete q;
 
     repaint();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    currentLineColor = currentBackgroundColor;
+    QString qss = QString("background-color: %1").arg(currentLineColor.name());
+    ui->btnColor->setStyleSheet(qss);
 }

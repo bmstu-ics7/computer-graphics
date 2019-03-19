@@ -9,28 +9,34 @@ Line::Line(double sx, double sy, double fx, double fy, QColor c, int a)
     alghoritm = a;
 }
 
-QList<Point> Line::draw()
+void Line::draw(QPainter& p, int w, int h)
 {
     switch (alghoritm) {
     case 0:
-        return CDA();
+        CDA(p, w, h);
+        break;
     case 1:
-        return BFloat();
+        BFloat(p, w, h);
+        break;
     case 2:
-        return BInt();
+        BInt(p, w, h);
+        break;
     case 3:
-        return BLadder();
+        BLadder(p, w, h);
+        break;
     case 4:
-        return Library();
+        Wu(p, w, h);
+        break;
+    case 5:
+        Library(p, w, h);
+        break;
     default:
-        return QList<Point>();
+        break;
     }
 }
 
-QList<Point> Line::CDA()
+void Line::CDA(QPainter& p, int w, int h)
 {
-    QList<Point> points;
-
     double dx = finish.x() - start.x();
     double dy = finish.y() - start.y();
 
@@ -42,22 +48,21 @@ QList<Point> Line::CDA()
     double x = start.x();
     double y = start.y();
 
+    p.setPen(QPen(color, 1));
     for (int i = 1; i <= l + 1; i++) {
-        points.append(Point(QPoint(int(x), int(y)), color));
+        p.drawPoint(w / 2 + int(x), h / 2 - int(y));
         x += sx;
         y += sy;
     }
-
-    return points;
 }
 
-QList<Point> Line::BFloat()
+void Line::BFloat(QPainter& p, int w, int h)
 {
-    QList<Point> points;
+    p.setPen(QPen(color, 1));
 
     if (int(start.x()) == int(finish.x()) && int(start.y()) == int(finish.y())) {
-        points.append(Point(QPoint(int(start.x()), int(start.y())), color));
-        return points;
+        p.drawPoint(w / 2 + int(start.x()), h / 2 - int(start.y()));
+        return;
     }
 
     int x = int(start.x());
@@ -89,7 +94,7 @@ QList<Point> Line::BFloat()
     double e = m - (1.0 / 2);
 
     for (int i = 1; i <= dx + 1; i++) {
-        points.append(Point(QPoint(x, y), color));
+        p.drawPoint(w / 2 + x, h / 2 - y);
 
         if (e > 0) {
             if (swap) {
@@ -109,17 +114,15 @@ QList<Point> Line::BFloat()
         }
         e += m;
     }
-
-    return points;
 }
 
-QList<Point> Line::BInt()
+void Line::BInt(QPainter& p, int w, int h)
 {
-    QList<Point> points;
+    p.setPen(QPen(color, 1));
 
     if (int(start.x()) == int(finish.x()) && int(start.y()) == int(finish.y())) {
-        points.append(Point(QPoint(int(start.x()), int(start.y())), color));
-        return points;
+        p.drawPoint(w / 2 + int(start.x()), h / 2 - int(start.y()));
+        return;
     }
 
     int x = int(start.x());
@@ -145,7 +148,7 @@ QList<Point> Line::BInt()
     int e = 2 * dy - dx;
 
     for (int i = 1; i <= dx + 1; i++) {
-        points.append(Point(QPoint(x, y), color));
+        p.drawPoint(w / 2 + x, h / 2 - y);
 
         if (e > 0) {
             if (swap) {
@@ -166,19 +169,17 @@ QList<Point> Line::BInt()
 
         e += 2 * dy;
     }
-
-    return points;
 }
 
-QList<Point> Line::BLadder()
+void Line::BLadder(QPainter& p, int w, int h)
 {
     double I = 256;
 
-    QList<Point> points;
+    p.setPen(QPen(color, 1));
 
     if (int(start.x()) == int(finish.x()) && int(start.y()) == int(finish.y())) {
-        points.append(Point(QPoint(int(start.x()), int(start.y())), color));
-        return points;
+        p.drawPoint(w / 2 + int(start.x()), h / 2 - int(start.y()));
+        return;
     }
 
     int dx = int(finish.x()) - int(start.x());
@@ -217,7 +218,8 @@ QList<Point> Line::BLadder()
 
     QColor copy = color;
     copy.setAlpha(int(m / 2));
-    points.append(Point(QPoint(x, y), copy));
+    p.setPen(QPen(copy, 1));
+    p.drawPoint(w / 2 + x, h / 2 - y);
 
     for (int i = 1; i <= dx; i++) {
         if (e < W) {
@@ -239,24 +241,145 @@ QList<Point> Line::BLadder()
 
         QColor copy = color;
         copy.setAlpha(int(e));
-        points.append(Point(QPoint(x, y), copy));
+        p.setPen(QPen(copy, 1));
+        p.drawPoint(w / 2 + x, h / 2 - y);
 
         copy.setAlpha(int(I - e));
-        points.append(Point(QPoint(xa, ya), copy));
+        p.setPen(QPen(copy, 1));
+        p.drawPoint(w / 2 + xa, h / 2 - ya);
     }
-
-    return points;
 }
 
-QList<Point> Line::Library()
+void Line::Wu(QPainter& p, int w, int h)
 {
-    QList<Point> points;
-    points.append(Point(QPoint(int(start.x()), int(start.y())), color));
-    points.append(Point(QPoint(int(finish.x()), int(finish.y())), color));
-    return points;
+    auto frac = [](double num) { return num - int(num); };
+    QColor copy = color;
+
+    double x1 = start.x();
+    double x2 = finish.x();
+    double y1 = start.y();
+    double y2 = finish.y();
+
+    if (abs(x2 - x1) > abs(y2 - y1)) {
+        int one = 1;
+        if (y2 < y1) one = -1;
+
+        if (x2 < x1) {
+            std::swap(x1, x2);
+            std::swap(y1, y2);
+        }
+
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        double m = dy / dx;
+
+        int xend = int(x1 + 0.5);
+        double yend = y1 + m * (xend - x1);
+        double xgap = 1 - frac(x1 + 0.5);
+
+        int xpxl1 = xend;
+        int ypxl1 = int(yend);
+
+        copy.setAlphaF((1 - frac(abs(yend))) * xgap);
+        p.setPen(QPen(copy, 1));
+        p.drawPoint(w / 2 + xpxl1, h / 2 - ypxl1);
+
+        copy.setAlphaF(frac(abs(yend)) * xgap);
+        p.setPen(QPen(copy, 1));
+        p.drawPoint(w / 2 + xpxl1, h / 2 - ypxl1 - one);
+
+        double intery = yend + m;
+
+        xend = int(x2 + 0.5);
+        yend = y2 + m * (xend - x2);
+
+        xgap = frac(x2 + 0.5);
+
+        int xpxl2 = xend;
+        int ypxl2 = int(yend);
+
+        copy.setAlphaF((1 - frac(abs(yend))) * xgap);
+        p.setPen(QPen(copy, 1));
+        p.drawPoint(w / 2 + xpxl2, h / 2 - ypxl2);
+
+        copy.setAlphaF(frac(abs(yend)) * xgap);
+        p.setPen(QPen(copy, 1));
+        p.drawPoint(w / 2 + xpxl2, h / 2 - ypxl2 - one);
+
+        for (int x = xpxl1 + 1; x < xpxl2; x++) {
+            copy.setAlphaF(1 - frac(abs(intery)));
+            p.setPen(QPen(copy, 1));
+            p.drawPoint(w / 2 + x, h / 2 - int(intery));
+
+            copy.setAlphaF(frac(abs(intery)));
+            p.setPen(QPen(copy, 1));
+            p.drawPoint(w / 2 + x, h / 2 - int(intery) - one);
+
+            intery += m;
+        }
+    } else {
+        int one = 1;
+        if (x2 < x1) one = -1;
+
+        if (y2 < y1) {
+            std::swap(x1, x2);
+            std::swap(y1, y2);
+        }
+
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        double m = dx / dy;
+
+        int yend = int(y1 + 0.5);
+        double xend = x1 + m * (yend - y1);
+        double ygap = 1 - frac(y1 + 0.5);
+
+        int ypxl1 = yend;
+        int xpxl1 = int(xend);
+
+        copy.setAlphaF((1 - frac(abs(xend)) * ygap));
+        p.setPen(QPen(copy, 1));
+        p.drawPoint(w / 2 + xpxl1, h / 2 - ypxl1);
+
+        copy.setAlphaF(frac(abs(xend)) * ygap);
+        p.setPen(QPen(copy, 1));
+        p.drawPoint(w / 2 + xpxl1 + one, h / 2 - ypxl1);
+
+        double intery = xend + m;
+
+        yend = int(y2 + 0.5);
+        xend = x2 + m * (yend - y2);
+
+        ygap = frac(y2 + 0.5);
+
+        int ypxl2 = yend;
+        int xpxl2 = int(xend);
+
+        copy.setAlphaF((1 - frac(abs(xend))) * ygap);
+        p.setPen(QPen(copy, 1));
+        p.drawPoint(w / 2 + xpxl2, h / 2 - ypxl2);
+
+        copy.setAlphaF(frac(abs(xend)) * ygap);
+        p.setPen(QPen(copy, 1));
+        p.drawPoint(w / 2 + xpxl2 + one, h / 2 - ypxl2);
+
+        for (int y = ypxl1 + 1; y < ypxl2; y++) {
+            copy.setAlphaF(1 - frac(abs(intery)));
+            p.setPen(QPen(copy, 1));
+            p.drawPoint(w / 2 + int(intery), h / 2 - y);
+
+            copy.setAlphaF(frac(abs(intery)));
+            p.setPen(QPen(copy, 1));
+            p.drawPoint(w / 2 + int(intery) + one, h / 2 - y);
+
+            intery += m;
+        }
+    }
 }
 
-bool Line::isLibrary()
+void Line::Library(QPainter& p, int w, int h)
 {
-    return alghoritm == 4;
+    p.setPen(QPen(color, 1));
+    p.drawLine(w / 2 + int(start.x()), h / 2 - int(start.y()),
+               w / 2 + int(finish.x()), h / 2 - int(finish.y()));
 }

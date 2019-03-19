@@ -7,7 +7,6 @@
 #include <QColorDialog>
 
 #include "line.h"
-#include "point.h"
 
 #define RADIANS 57.2958
 #define PI 3.1415926535
@@ -35,6 +34,8 @@ private slots:
     void on_btnColor_clicked();
 
     void on_btnBColor_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

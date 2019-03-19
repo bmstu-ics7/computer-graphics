@@ -193,6 +193,11 @@
         </item>
         <item>
          <property name="text">
+          <string>Ву</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Библиотека</string>
          </property>
         </item>
@@ -392,6 +397,11 @@
         </item>
         <item>
          <property name="text">
+          <string>Ву</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Библиотека</string>
          </property>
         </item>
@@ -456,6 +466,13 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="0" column="2" colspan="2">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Кисть цвета фона</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

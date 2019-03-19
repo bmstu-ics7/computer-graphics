@@ -27,14 +27,12 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    line.cpp \
-    point.cpp
+    line.cpp
 
 HEADERS += \
         mainwindow.h \
     line.h \
-    line.h \
-    point.h
+    line.h
 
 FORMS += \
         mainwindow.ui

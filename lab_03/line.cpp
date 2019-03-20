@@ -50,7 +50,7 @@ void Line::CDA(QPainter& p, int w, int h)
 
     p.setPen(QPen(color, 1));
     for (int i = 1; i <= l + 1; i++) {
-        p.drawPoint(w / 2 + int(x), h / 2 - int(y));
+        p.drawPoint(w / 2 + int(x + 0.5 * int(x / x)), h / 2 - int(y + 0.5 * int(y / y)));
         x += sx;
         y += sy;
     }
@@ -205,7 +205,7 @@ void Line::BLadder(QPainter& p, int w, int h)
         m = double(dy) / dx;
     }
 
-    double e = 1.0 / 2;
+    double e = I / 2;
 
     m *= I;
     double W = I - m;
@@ -244,9 +244,9 @@ void Line::BLadder(QPainter& p, int w, int h)
         p.setPen(QPen(copy, 1));
         p.drawPoint(w / 2 + x, h / 2 - y);
 
-        copy.setAlpha(int(I - e));
-        p.setPen(QPen(copy, 1));
-        p.drawPoint(w / 2 + xa, h / 2 - ya);
+        //copy.setAlpha(int(I - e));
+        //p.setPen(QPen(copy, 1));
+        //p.drawPoint(w / 2 + xa, h / 2 - ya);
     }
 }
 

@@ -26,10 +26,17 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    circle.cpp \
+    ellipse.cpp \
+    number.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    circle.h \
+    ellipse.h \
+    figure.h \
+    number.h
 
 FORMS += \
         mainwindow.ui

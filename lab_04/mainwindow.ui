@@ -1,24 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>706</width>
+    <height>682</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout_5">
+    <item row="1" column="1">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="maximumSize">
+       <size>
+        <width>140</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Окружность</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="4" column="0" colspan="2">
+        <widget class="QPushButton" name="btnCircle">
+         <property name="text">
+          <string>Нарисовать</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>R</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Cx</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Cy</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineCircleX"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineCircleY"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="LineCircleR"/>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QComboBox" name="cmbCircle">
+         <item>
+          <property name="text">
+           <string>Каноническое уравнение</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Параметрическое уравнение</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алгоритм Брезенхема</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алгоритм средней точки</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Библиотека</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="title">
+       <string>Цвета</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="1" column="1">
+        <widget class="QPushButton" name="btnForeground">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Цвет фона</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Цвет кисти</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="btnBackground">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QPushButton" name="btnOneColor">
+         <property name="text">
+          <string>Кисть цвета фона</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="maximumSize">
+       <size>
+        <width>140</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Спектр окружностей</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineCircleCount"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Rн</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>N</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QPushButton" name="btnCircles">
+         <property name="text">
+          <string>Нарисовать</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QComboBox" name="cmbCircles">
+         <item>
+          <property name="text">
+           <string>Каноническое уравнение</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Параметрическое уравнение</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алгоритм Брезенхема</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алгоритм средней точки</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Библиотека</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineCircleStartR"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>ΔR</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineCircleDeltaR"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="maximumSize">
+       <size>
+        <width>140</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Спектр эллипсов</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>b нач</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLineEdit" name="lineEllipsesA"/>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>N</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLineEdit" name="lineEllipsesB"/>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="lineEllipsesDeltaA"/>
+       </item>
+       <item row="8" column="0" colspan="3">
+        <widget class="QPushButton" name="btnEllipses">
+         <property name="text">
+          <string>Нарисовать</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="3">
+        <widget class="QComboBox" name="cmbEllipses">
+         <item>
+          <property name="text">
+           <string>Каноническое уравнение</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Параметрическое уравнение</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алгоритм Брезенхема</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алгоритм средней точки</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Библиотека</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>a нач</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLineEdit" name="lineEllipsesN"/>
+       </item>
+       <item row="3" column="2">
+        <widget class="QLineEdit" name="lineEllipsesDeltaB"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Δa</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Δb</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="2" column="1">
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="maximumSize">
+       <size>
+        <width>140</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>Эллипс</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Cy</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLineEdit" name="lineEllipseY"/>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="lineEllipseA"/>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Cx</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QLineEdit" name="lineEllipseB"/>
+       </item>
+       <item row="4" column="0" colspan="3">
+        <widget class="QComboBox" name="cmbEllipse">
+         <item>
+          <property name="text">
+           <string>Каноническое уравнение</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Параметрическое уравнение</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алгоритм Брезенхема</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Алгоритм средней точки</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Библиотека</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="3">
+        <widget class="QPushButton" name="btnEllipse">
+         <property name="text">
+          <string>Нарисовать</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>b</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>a</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLineEdit" name="lineEllipseX"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="3" column="1" colspan="2">
+     <widget class="QPushButton" name="btnClear">
+      <property name="text">
+       <string>Очистить</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>706</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>btnBackground</tabstop>
+  <tabstop>btnForeground</tabstop>
+  <tabstop>btnOneColor</tabstop>
+  <tabstop>lineCircleX</tabstop>
+  <tabstop>lineCircleY</tabstop>
+  <tabstop>LineCircleR</tabstop>
+  <tabstop>cmbCircle</tabstop>
+  <tabstop>btnCircle</tabstop>
+  <tabstop>lineCircleStartR</tabstop>
+  <tabstop>lineCircleDeltaR</tabstop>
+  <tabstop>lineCircleCount</tabstop>
+  <tabstop>cmbCircles</tabstop>
+  <tabstop>btnCircles</tabstop>
+  <tabstop>lineEllipseX</tabstop>
+  <tabstop>lineEllipseY</tabstop>
+  <tabstop>lineEllipseA</tabstop>
+  <tabstop>lineEllipseB</tabstop>
+  <tabstop>cmbEllipse</tabstop>
+  <tabstop>btnEllipse</tabstop>
+  <tabstop>lineEllipsesA</tabstop>
+  <tabstop>lineEllipsesB</tabstop>
+  <tabstop>lineEllipsesDeltaA</tabstop>
+  <tabstop>lineEllipsesDeltaB</tabstop>
+  <tabstop>lineEllipsesN</tabstop>
+  <tabstop>cmbEllipses</tabstop>
+  <tabstop>btnEllipses</tabstop>
+  <tabstop>btnClear</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

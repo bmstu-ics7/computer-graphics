@@ -72,7 +72,7 @@ void Ellipse::parametricDraw(QPainter& painter)
         drawPoint(painter, center.x() + x, center.y() + y);
     }
 
-    for (double t = tMax; t >= 0; t -= dy) {
+    for (double t = tMax; t >= -0.01; t -= dy) {
         int x = myRound(a * cos(t));
         int y = myRound(b * sin(t));
         drawPoint(painter, center.x() + x, center.y() + y);
@@ -138,7 +138,7 @@ void Ellipse::middleDraw(QPainter& painter)
     int teta = -ad * y;
     int dx = 0;
 
-    double fpr = b * b - a * a * y + a* a * 0.25;
+    double fpr = b * b - a * a * y + a * a * 0.25;
 
     while (x <= xMax) {
         drawPoint(painter, center.x() + x, center.y() + y);
@@ -154,7 +154,7 @@ void Ellipse::middleDraw(QPainter& painter)
         fpr += dx + b * b;
     }
 
-    fpr += 0.75*(a * a - b * b) - (b * b * x + a * a * y);
+    fpr += 0.75 * (a * a - b * b) - (b * b * x + a * a * y);
 
     teta = bd * x;
     int dy = -ad*y;

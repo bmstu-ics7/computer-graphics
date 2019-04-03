@@ -53,13 +53,43 @@ void Circle::canonicalDraw(QPainter& painter)
     }
 }
 
+double cosx(double x)
+{
+    double n = 1.0;
+    double sum = 0.0;
+    int i = 1;
+
+    do {
+        sum += n;
+        n *= -1.0 * x * x / ((2 * i - 1) * (2 * i));
+        i++;
+    } while ((n > 0.0 ? n : -n) > 1e-20);
+
+    return sum;
+}
+
+double sinx(double x)
+{
+    double n = x;
+    double sum = 0.0;
+    int i = 1;
+
+    do {
+        sum += n;
+        n *= -1.0 * x * x / ((2 * i) * (2 * i + 1));
+        i++;
+    } while ((n > 0.0 ? n : -n) > 1e-20);
+
+    return sum;
+}
+
 void Circle::parametricDraw(QPainter& painter)
 {
     painter.setPen(QPen(color, 1));
 
     for (double t = 0; t <= M_PI / 2 * 1.1; t += 1.0 / R) {
-        int x = myRound(center.x() + R * cos(t));
-        int y = myRound(center.y() + R * sin(t));
+        int x = myRound(center.x() + R * cosx(t));
+        int y = myRound(center.y() + R * sinx(t));
         drawPoint(painter, x, y);
     }
 }
@@ -112,7 +142,7 @@ void Circle::middleDraw(QPainter& painter)
 {
     painter.setPen(QPen(color, 1));
 
-    int p = int(1 - R);
+    double p = 5.0 / 4 - R;
     int x = 0;
     int y = R;
 
@@ -120,12 +150,12 @@ void Circle::middleDraw(QPainter& painter)
     drawPoint(painter, center.x() + y, center.y() + x);
 
     while (x < y) {
-        x += 1;
+        ++x;
 
         if (p < 0) {
             p += 2 * x + 1;
         } else {
-            y -= 1;
+            --y;
             p += 2 * (x - y) + 1;
         }
 

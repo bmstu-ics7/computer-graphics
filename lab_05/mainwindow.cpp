@@ -79,7 +79,7 @@ void MainWindow::paintEvent(QPaintEvent*)
 
 void wait()
 {
-    QApplication::processEvents(QEventLoop::AllEvents, 0);
+    QApplication::processEvents(QEventLoop::AllEvents, 1);
 }
 
 void MainWindow::fill(QImage& img, QList<Figure> figures, bool delay)
@@ -137,6 +137,9 @@ void MainWindow::mousePressEvent(QMouseEvent* e)
     if (e->button() == Qt::LeftButton) {
         int x = e->x() - LEFT;
         int y = e->y() - UP;
+
+        if (x < 0 || y < 0 || x > width() || y > height())
+            return;
 
         if (horizontal && ui->listDots->count())
             y = ui->listDots->item(ui->listDots->count() - 1)->

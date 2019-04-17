@@ -40,6 +40,7 @@ void MainWindow::paintEvent(QPaintEvent*)
     for (Ellipse ellip : ellipses) {
         ellip.draw(p);
     }
+
 }
 
 void MainWindow::on_btnBackground_clicked()

@@ -79,7 +79,7 @@ void MainWindow::paintEvent(QPaintEvent*)
 
 void wait()
 {
-    QApplication::processEvents(QEventLoop::AllEvents, 1);
+    QApplication::processEvents(QEventLoop::AllEvents, 0);
 }
 
 void MainWindow::fill(QImage& img, QList<Figure> figures, bool delay)
@@ -98,12 +98,9 @@ void MainWindow::fill(QImage& img, QList<Figure> figures, bool delay)
     }
 
     int ymin = points[0].y(), ymax = points[0].y();
-    //int xmin = points[0].x(), xmax = points[0].x();
     for (QPoint point : points) {
         if (point.y() < ymin) ymin = point.y();
         if (point.y() > ymax) ymax = point.y();
-        //if (point.x() < xmin) xmin = point.x();
-        //if (point.x() > xmax) xmax = point.x();
     }
 
     for (int y = ymin; y <= ymax; ++y) {

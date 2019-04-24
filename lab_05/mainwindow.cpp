@@ -79,7 +79,7 @@ void MainWindow::paintEvent(QPaintEvent*)
 
 void wait()
 {
-    QApplication::processEvents(QEventLoop::AllEvents, 1);
+    QApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
 void MainWindow::fill(QImage& img, QList<Figure> figures, bool delay)
@@ -124,6 +124,7 @@ void MainWindow::fill(QImage& img, QList<Figure> figures, bool delay)
         }
 
         if (delay) {
+            scene.clear();
             QPixmap pix;
             pix.convertFromImage(img);
             scene.addPixmap(pix);
@@ -284,15 +285,6 @@ void MainWindow::on_btnClear_clicked()
 {
     ui->listDots->clear();
     firstPoint = QPoint(0, 0);
-
-    scene.clear();
-    QImage img(ui->canvas->width(), ui->canvas->height(), QImage::Format_ARGB32);
-    img.fill(backgroundColor);
-    QPixmap pix;
-    pix.convertFromImage(img);
-    scene.addPixmap(pix);
-    on_btnStart_clicked();
-
     repaint();
 }
 

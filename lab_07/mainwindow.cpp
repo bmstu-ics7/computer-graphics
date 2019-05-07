@@ -77,6 +77,11 @@ void MainWindow::mousePressEvent(QMouseEvent* e)
             } else {
                 Figure figure(firstForFigure.x(), p.x(), firstForFigure.y(), p.y());
                 figures.append(figure);
+                ui->listFigures->addItem("Xл: " + QString::number(figure.Left()) +
+                                         " Xп: " + QString::number(figure.Right()) + "\n" +
+                                         "Yв: " + QString::number(figure.Up()) +
+                                         " Yн: " + QString::number(figure.Down()));
+
                 firstForFigure = QPoint(-1, -1);
             }
         } else {
@@ -96,6 +101,10 @@ void MainWindow::mousePressEvent(QMouseEvent* e)
 
                 Line line = Line(firstForLine, p);
                 lines.append(line);
+                ui->listLines->addItem("(" + QString::number(line.getA().x()) +
+                                       ";" + QString::number(line.getA().y()) +
+                                       ") (" + QString::number(line.getB().x()) +
+                                       ";" + QString::number(line.getB().y()) + ")");
                 firstForLine = QPoint(-1, -1);
             }
         }
@@ -181,6 +190,8 @@ void MainWindow::on_btnClear_clicked()
 {
     lines = QList<Line>();
     figures = QList<Figure>();
+    ui->listLines->clear();
+    ui->listFigures->clear();
     repaint();
 }
 
@@ -197,7 +208,12 @@ void MainWindow::on_btnAdd_clicked()
         return;
     }
 
-    figures.append(Figure(left, right, up, down));
+    Figure figure(left, right, up, down);
+    figures.append(figure);
+    ui->listFigures->addItem("Xл: " + QString::number(left) +
+                             " Xп: " + QString::number(right) +
+                             "Yв: " + QString::number(up) +
+                             " Yн: " + QString::number(down));
 
     repaint();
 }
@@ -215,6 +231,11 @@ void MainWindow::on_btnAddLine_clicked()
         return;
     }
 
-    lines.append(Line(QPoint(xStart, yStart), QPoint(xFinish, yFinish)));
+    Line line(QPoint(xStart, yStart), QPoint(xFinish, yFinish));
+    lines.append(line);
+    ui->listLines->addItem("(" + QString::number(line.getA().x()) +
+                           ";" + QString::number(line.getA().y()) +
+                           ") (" + QString::number(line.getB().x()) +
+                           ";" + QString::number(line.getB().y()) + ")");
     repaint();
 }

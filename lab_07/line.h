@@ -11,6 +11,7 @@ class Line
 public:
     Line() : a(QPoint(0, 0)), b(QPoint(0, 0)) {}
     Line(QPoint a, QPoint b) : a(a), b(b) {}
+    Line(QPointF a, QPointF b);
     QPoint getA() {return a;}
     QPoint getB() {return b;}
     void draw(QPainter& painter);

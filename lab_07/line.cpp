@@ -1,5 +1,11 @@
 #include "line.h"
 
+Line::Line(QPointF _a, QPointF _b)
+{
+    a = QPoint(myRound(_a.x()), myRound(_a.y()));
+    b = QPoint(myRound(_b.x()), myRound(_b.y()));
+}
+
 void Line::draw(QPainter& painter)
 {
     /*

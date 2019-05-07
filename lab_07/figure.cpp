@@ -20,6 +20,26 @@ void Figure::draw(QPainter& painter)
     painter.drawLine(right, down, right, up);
 }
 
+int Figure::Left()
+{
+    return left;
+}
+
+int Figure::Right()
+{
+    return right;
+}
+
+int Figure::Up()
+{
+    return up;
+}
+
+int Figure::Down()
+{
+    return down;
+}
+
 void Figure::clipAll(QPainter& painter, QList<Line> lines)
 {
     for (Line line : lines) {
@@ -53,87 +73,57 @@ int Figure::timesCode(QPointF P1, QPointF P2)
 
 void Figure::clipOne(QPainter& painter, QPointF P1, QPointF P2)
 {
-    /*
-    QPoint P1 = line.getA();
-    QPoint P2 = line.getB();
-    double eps = 1e-6;
+    double eps = 1e-3;
+    QPointF T;
+    int i = 1;
 
-    int i = 2;
+    while (true) {
+        int S1 = sumCode(P1);
+        int S2 = sumCode(P2);
 
-l3:
-
-    int S1 = sumCode(P1);
-    int S2 = sumCode(P2);
-
-    if (S1 == 0 && S2 == 0) {
-        line.draw(painter);
-        return;
-    }
-
-    if (timesCode(P1, P2) != 0) {
-        return;
-    }
-
-    QPoint T = P1;
-
-    if (i > 2) {
-        if (timesCode(P1, P2) != 0) {
-            return;
-        } else {
-            line.draw(painter);
+        if (S1 == 0 && S2 == 0) {
+            Line(P1, P2).draw(painter);
             return;
         }
+
+        if (timesCode(P1, P2) != 0) {
+            return;
+        }
+
+        T = P1;
+
+        if (i > 2) {
+            if (timesCode(P1, P2) != 0) {
+                return;
+            } else {
+                Line(P1, P2).draw(painter);
+                return;
+            }
+        }
+
+        if (S2 == 0) {
+            P1 = P2;
+            P2 = T;
+            ++i;
+            continue;
+        }
+
+        while (true) {
+            if (absx(P1.x() - P2.x()) + absx(P1.y() - P2.y()) <= eps) {
+                P1 = P2;
+                P2 = T;
+                ++i;
+                break;
+            }
+
+            QPointF Pmid = QPointF((P1.x() + P2.x()) / 2, (P1.y() + P2.y()) / 2);
+            QPointF Pcur = P1;
+            P1 = Pmid;
+
+            if (timesCode(P1, P2) != 0) {
+                P1 = Pcur;
+                P2 = Pmid;
+            }
+        }
     }
-
-    if (S2 == 0) {
-        //Res[i] = P1;
-        P1 = P2;
-        P2 = T;
-        ++i;
-        goto l3;
-    }
-l9:
-    if (absx(P1.x() - P2.x()) + absx(P1.y() - P2.y()) <= eps) {
-        //Res[i] = P1;
-        P1 = P2;
-        P2 = T;
-        ++i;
-        goto l3;
-    }
-
-    QPoint Pmid = QPoint((P1.x() + P2.x()) >> 1, (P1.y() + P2.y()) >> 1);
-    QPoint Pcur = P1;
-    P1 = Pmid;
-
-    if (timesCode(P1, P2) != 0) {
-        P1 = Pcur;
-        P2 = Pmid;
-    }
-
-    goto l9;
-    */
-
-    double eps = 1;
-
-    if ((P1.x() - P2.x()) * (P1.x() - P2.x()) + (P1.y() - P2.y()) * (P1.y() - P2.y()) <= eps) {
-        return;
-    }
-
-    if (timesCode(P1, P2) != 0) {
-        return;
-    }
-
-    int S1 = sumCode(P1);
-    int S2 = sumCode(P2);
-
-    if (S1 == 0 && S2 == 0) {
-        Line(QPoint(myRound(P1.x()), myRound(P1.y())),
-             QPoint(myRound(P2.x()), myRound(P2.y()))).draw(painter);
-        return;
-    }
-
-    QPointF Pmid((P1.x() + P2.x()) / 2, (P1.y() + P2.y()) / 2);
-
-    clipOne(painter, P1, Pmid);
-    clipOne(painter, Pmid, P2);
 }

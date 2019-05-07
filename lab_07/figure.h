@@ -15,6 +15,10 @@ public:
     Figure(int left, int right, int up, int down);
     void draw(QPainter& painter);
     void clipAll(QPainter& painter, QList<Line> lines);
+    int Left();
+    int Right();
+    int Up();
+    int Down();
 private:
     void clipOne(QPainter& painter, QPointF P1, QPointF P2);
     int sumCode(QPointF P);

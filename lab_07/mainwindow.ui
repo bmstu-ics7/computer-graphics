@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>608</width>
-    <height>605</height>
+    <height>828</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -351,6 +351,25 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>lineXLeft</tabstop>
+  <tabstop>lineXRight</tabstop>
+  <tabstop>lineYUp</tabstop>
+  <tabstop>lineYDown</tabstop>
+  <tabstop>btnAdd</tabstop>
+  <tabstop>lineStartX</tabstop>
+  <tabstop>lineStartY</tabstop>
+  <tabstop>lineFinishX</tabstop>
+  <tabstop>lineFinishY</tabstop>
+  <tabstop>btnAddLine</tabstop>
+  <tabstop>btnBackgroundColor</tabstop>
+  <tabstop>btnFigureColor</tabstop>
+  <tabstop>btnEdgeColor</tabstop>
+  <tabstop>btnClipColor</tabstop>
+  <tabstop>btnClear</tabstop>
+  <tabstop>listFigures</tabstop>
+  <tabstop>listLines</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

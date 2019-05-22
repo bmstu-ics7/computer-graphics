@@ -134,10 +134,12 @@ void MainWindow::mousePressEvent(QMouseEvent* e)
 
                 altStart = QPoint(x, y);
             } else if (altState == 3) {
-                ++altState;
+                altState = 1;
 
                 if (altLine.first.x() == altLine.second.x()) {
                     altFinish = QPoint(altStart.x(), y);
+                } else if (altLine.first.y() == altLine.second.y()) {
+                    altFinish = QPoint(x, altStart.y());
                 } else {
                     double k = double(altLine.second.y() - altLine.first.y())
                                    / (altLine.second.x() - altLine.first.x());

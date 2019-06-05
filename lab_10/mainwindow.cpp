@@ -223,6 +223,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.fillRect(0, 0, canvasWidth, canvasHeight, backgroundColor);
     painter.setClipRect(0, 0, canvasWidth, canvasHeight);
+    painter.setPen(QPen(foregroundColor, 1));
     drawLines(painter, canvasWidth, canvasHeight);
 }
 

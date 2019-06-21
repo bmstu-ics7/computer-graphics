@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     backgroundColor = Qt::white;
-    figureColor = Qt::black;
+    figureColor = Qt::blue;
     clipColor = Qt::red;
     edgeColor = Qt::black;
 
@@ -78,7 +78,7 @@ void MainWindow::paintEvent(QPaintEvent*)
         line.draw(p);
     }
 
-    p.setPen(QPen(clipColor, 1));
+    p.setPen(QPen(clipColor, 2));
     for (Figure figure : figures) {
         if (figure.isClose())
             figure.clipAll(p, lines);

@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     canvasHeight = height();
 
     backgroundColor = Qt::white;
-    figureColor = Qt::black;
+    figureColor = Qt::blue;
     clipColor = Qt::red;
     edgeColor = Qt::black;
 
@@ -60,7 +60,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     }
     p.drawPoint(firstForLine);
 
-    p.setPen(QPen(clipColor, 1));
+    p.setPen(QPen(clipColor, 2));
     for (Figure figure : figures) {
         figure.clipAll(p, lines);
     }

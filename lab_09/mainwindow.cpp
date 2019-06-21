@@ -96,7 +96,7 @@ void MainWindow::paintEvent(QPaintEvent*)
         figure.draw(p);
     }
 
-    p.setPen(QPen(clipColor, 1));
+    p.setPen(QPen(clipColor, 2));
     for (Figure figure : clip) {
         if (figure.isClose())
             figure.clipAll(p, figures);

@@ -31,7 +31,7 @@ protected:
     virtual void drawPoint(QPainter&, int, int) = 0;
 public:
     Figure() {}
-    virtual ~Figure() {}
+    virtual ~Figure() = default;
     virtual void draw(QPainter&) = 0;
 };
 

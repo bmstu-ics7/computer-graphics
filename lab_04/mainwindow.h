@@ -47,8 +47,7 @@ private:
     Ui::MainWindow *ui;
     QColor background;
     QColor foreground;
-    QList<Circle> circles;
-    QList<Ellipse> ellipses;
+    QList<Figure*> figures;
 };
 
 #endif // MAINWINDOW_H

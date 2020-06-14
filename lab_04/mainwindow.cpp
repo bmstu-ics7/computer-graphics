@@ -14,9 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QString qssbg = QString("background-color: %1").arg(background.name());
     ui->btnBackground->setStyleSheet(qssbg);
-
-    circles = QList<Circle>();
-    ellipses = QList<Ellipse>();
 }
 
 MainWindow::~MainWindow()
@@ -33,12 +30,8 @@ void MainWindow::paintEvent(QPaintEvent*)
     p.fillRect(0, 0, canvasWidth, canvasHeight, background);
     p.setClipRect(0, 0, canvasWidth, canvasHeight);
 
-    for (Circle circ : circles) {
-        circ.draw(p);
-    }
-
-    for (Ellipse ellip : ellipses) {
-        ellip.draw(p);
+    for (Figure* fig : figures) {
+        fig->draw(p);
     }
 
 }
@@ -74,8 +67,11 @@ void MainWindow::on_btnOneColor_clicked()
 
 void MainWindow::on_btnClear_clicked()
 {
-    circles = QList<Circle>();
-    ellipses = QList<Ellipse>();
+    for (Figure* fig : figures) {
+        delete fig;
+    }
+
+    figures = QList<Figure*>();
     repaint();
 }
 
@@ -92,7 +88,7 @@ void MainWindow::on_btnCircle_clicked()
        return;
     }
 
-    circles.append(Circle(QPoint(Cx, Cy + MARGIN_UP), R, alg, foreground));
+    figures.append(new Circle(QPoint(Cx, Cy + MARGIN_UP), R, alg, foreground));
     repaint();
 }
 
@@ -113,7 +109,7 @@ void MainWindow::on_btnCircles_clicked()
     }
 
     for (int R = startR, i = 0; i < count; R += deltaR, i++) {
-        circles.append(Circle(QPoint(canvasWidth / 2, canvasHeight / 2 + MARGIN_UP),
+        figures.append(new Circle(QPoint(canvasWidth / 2, canvasHeight / 2 + MARGIN_UP),
                               R, alg, foreground));
     }
 
@@ -134,7 +130,7 @@ void MainWindow::on_btnEllipse_clicked()
        return;
     }
 
-    ellipses.append(Ellipse(QPoint(Cx, Cy + MARGIN_UP), a, b, alg, foreground));
+    figures.append(new Ellipse(QPoint(Cx, Cy + MARGIN_UP), a, b, alg, foreground));
     repaint();
 }
 
@@ -157,7 +153,7 @@ void MainWindow::on_btnEllipses_clicked()
     }
 
     for (int a = startA, b = startB, i = 0; i < count; a += deltaA, b += deltaB, i++) {
-        ellipses.append(Ellipse(QPoint(canvasWidth / 2, canvasHeight / 2 + MARGIN_UP),
+        figures.append(new Ellipse(QPoint(canvasWidth / 2, canvasHeight / 2 + MARGIN_UP),
                                 a, b, alg, foreground));
     }
 
